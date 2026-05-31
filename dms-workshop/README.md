@@ -19,9 +19,9 @@ respond safely), chosen because it's relatable for a mixed, non-technical audien
 7. **[09_Code_Simulation_Prompts.md](09_Code_Simulation_Prompts.md)** — fuller Develop/Test prompts (code + tests + UI).
 8. **[simulation/](simulation/)** — runnable reference DMS (console sim, pytest, Streamlit UI).
 
-**Framework reference:** **[10_AI_Across_SDLC.md](10_AI_Across_SDLC.md)** — the 7 SDLC phases
-(Plan → Analyze → Design → Develop → Test → Deploy → Operate), AI impacts at each, and how they map
-to the live exercise.
+**Framework reference:** **[10_AI_Across_SDLC.md](10_AI_Across_SDLC.md)** — the 6 SDLC phases
+(Plan → Analyze → Design → Develop → Test → Deploy), AI impacts at each, and how they map to the
+live exercise.
 
 ## On the day
 - Have the AI tool open in a fresh chat (prime it with the line in the Prompt Book).
