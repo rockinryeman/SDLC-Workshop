@@ -57,14 +57,16 @@ iterative delivery while keeping humans accountable for safety.
 - Frame the exercise: "We're going to be that small team — for a Driver Monitoring System."
 
 ### 20–55 min · Live DMS exercise  ⭐ the centerpiece
-Run the **Prompt Book** (separate file) live on screen. Seven steps, each building on the last:
-1. Requirements generation
-2. Architecture & design
-3. SysML v2 text model (model-based thinking, light tooling)
-4. Test development + traceability
-5. Implementation approach (pseudocode)
-6. Verification review (pass/fail)
-7. Deployment planning (OTA, rollback, monitoring)
+Run the **Prompt Book** (separate file) live on screen — six SDLC phases, each building on the last:
+1. **Plan** — vision, stakeholder needs, roadmap, risks
+2. **Analyze** — requirements spec + acceptance criteria; find gaps
+3. **Design** — architecture + SysML v2 model (traces to requirements)
+4. **Develop** — runnable code for the detect-assess-respond loop
+5. **Test** — pytest run (green/red) + scenario simulation
+6. **Deploy** — OTA rollout, rollback, monitoring plan
+
+> For **Develop** and **Test**, use a tool that can run code (Code Interpreter / Claude / Jupyter),
+> or fall back to the runnable reference in `simulation/`.
 
 Facilitation rhythm for each step: **prompt → read output aloud → ask the room "what would you
 challenge?" → move on.** Don't perfect the output; momentum is the point.

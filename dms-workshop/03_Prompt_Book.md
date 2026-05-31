@@ -1,104 +1,91 @@
-# Prompt Book — Live DMS Exercise
+# Prompt Book — Live DMS Exercise (6 SDLC phases)
 
-**Purpose:** Guide the room through an AI-assisted automotive SDLC exercise for a **Driver
-Monitoring System**. Each prompt builds on the previous output to demonstrate iterative,
-single-team product development.
+Walk the **Driver Monitoring System** through the lifecycle, live, as one small team. Phases align
+to the framework in [10_AI_Across_SDLC.md](10_AI_Across_SDLC.md):
 
-**How to run it:** Paste each prompt into the AI tool live on screen. Read the output aloud (or
-have a participant do it). After each, ask the facilitator question before moving on. The goal is
-to *show the journey*, not to produce a perfect artifact.
+> **Plan → Analyze → Design → Develop → Test → Deploy**
 
-> **Tip:** Start a fresh chat, then feed these in order. Tell the AI once at the start:
-> *"We're running a live workshop. Keep each answer concise and skimmable — bullets over prose."*
+**How to run it:** fresh chat, prompts in order (each builds on the last). For **Develop** and
+**Test**, use a tool that can **run code** (Code Interpreter / Claude / Jupyter) — or fall back to
+the runnable reference in [`simulation/`](simulation/). Rhythm: **paste → read output → ask the room
+→ move on.** Don't perfect anything; momentum is the point.
+
+> **Prime the chat once (before Phase 1):** *"We're running a live workshop. Keep each answer
+> concise and skimmable — bullets over prose."*
 
 ---
 
-## Prompt 1 · Requirements Generation
+## Phase 1 · Plan
 ```
-You are a senior automotive systems engineer. We are designing a Driver Monitoring System (DMS)
-that detects when a driver is drowsy, distracted, or experiencing a medical emergency, and
-responds appropriately. Generate:
-- Stakeholder needs
+You are a senior automotive systems engineer. We are launching a Driver Monitoring System (DMS)
+that detects when a driver is drowsy, distracted, or experiencing a medical emergency, and responds
+appropriately. Give:
+- The product vision (one paragraph)
+- Key stakeholder needs
+- A short capability roadmap (MVP -> later)
+- Top risks and constraints
+```
+**Ask the room:** *Does this capture the real goal? What's missing?*
+
+## Phase 2 · Analyze
+```
+Turn those needs into a requirements specification:
 - Functional requirements
 - Non-functional requirements (latency, accuracy, privacy)
-- Constraints
 - Assumptions
 - Acceptance criteria
-Format the output as a requirements specification.
+Flag any gaps or NEW requirements you discover along the way.
 ```
-**Ask the room:** *What's missing? What would you challenge?*
+**Ask the room:** *What would you challenge? What did it surface that we'd have missed?*
 
-## Prompt 2 · Architecture & Design
+## Phase 3 · Design
 ```
-Using the approved requirements, create a concise architecture description including:
-- System context diagram (described in text)
-- Major components (sensors, perception/AI, decision logic, HMI, vehicle interface)
+Using the requirements, create the design:
+- System context (described in text)
+- Major components: sensors, perception/AI, decision logic, HMI, vehicle interface
 - Interfaces and data flows
-- Failure modes
-- Safety considerations
-- Privacy and cybersecurity considerations
+- Failure modes, safety, and privacy/cybersecurity considerations
+Then express it as a simple SysML v2 textual model (requirements, actions, flows) that traces back
+to the requirements. Favor readability over tool-specific correctness.
 ```
-**Ask the room:** *Where could this go wrong, and how would the system stay safe?*
+**Ask the room:** *Where could this go wrong — and how does the system stay safe?*
 
-## Prompt 3 · SysML v2 Text Model
+## Phase 4 · Develop
 ```
-Using the architecture, generate a simple SysML v2 textual model including:
-- Requirements
-- Actions/functions (e.g., DetectDrowsiness, AssessConfidence, TriggerResponse)
-- Interfaces/flows
-- Major system elements
-Focus on readability, not tool-specific correctness.
+Turn the design into runnable Python (no external libraries):
+- enums for driver state (attentive, drowsy, distracted, unknown, emergency) and response
+  (none, alert, warning, safe-stop assist, emergency protocol)
+- a DMS class with a process(frame) method implementing detect-assess-respond: sustained eye
+  closure -> drowsy; sustained gaze off road -> distracted; low confidence -> unknown (no action);
+  escalate the longer the driver stays impaired; emergency if unresponsive
+- an event log
+Show the code, then run it on one sample frame.
 ```
-**Ask the room (non-technical framing):** *This is just a structured way to write down the
-design so both a person and a machine can read it — notice how it traces back to the requirements.*
+**Ask the room:** *That's real code — notice we got here with no separate dev-team handoff.*
+*(Backup: [`simulation/dms.py`](simulation/dms.py).)*
 
-## Prompt 4 · Test Development
+## Phase 5 · Test
 ```
-Create:
-- Verification strategy
-- Functional test cases
-- Edge case test cases (sunglasses, darkness, head turned, passenger interference)
-- Negative test cases (false-positive drowsiness)
-- A requirements-to-test traceability matrix
-Include objective pass/fail criteria.
-```
-**Ask the room:** *Which of these tests would you most want to see pass before shipping?*
+Write pytest tests that verify the requirements: detect drowsiness, detect distraction, escalate
+alert -> warning -> safe-stop, suppress false alarms when attentive / low-confidence, trigger
+emergency when unresponsive, and log events. Run them and show green/red.
 
-## Prompt 5 · Implementation Approach
+Then run the logic against scripted scenarios — attentive, drowsy, distracted, sunglasses
+(low confidence) — and print the state + response at each step.
 ```
-Generate:
-- High-level implementation approach
-- Pseudocode for the detect-assess-respond loop
-- Logic flow
-- Data processing steps
-- Assumptions
-Explain how the solution satisfies the requirements.
-```
-**Ask the room:** *Notice we went from idea to logic without a separate dev team handoff.*
+**Ask the room:** *Verification just became evidence. Which test must pass before we ship?*
+*(Backup: [`simulation/test_dms.py`](simulation/test_dms.py) and [`simulate.py`](simulation/simulate.py).)*
 
-## Prompt 6 · Verification Review
+## Phase 6 · Deploy
 ```
-Review the proposed implementation. Identify:
-- Which requirements are satisfied
-- Which tests would pass
-- Potential defects
-- Risks (especially false alarms and missed detections)
-- Recommended improvements
-Provide a pass/fail assessment.
-```
-**Ask the room:** *Where does human expertise still have to make the final call?*
-
-## Prompt 7 · Deployment Planning
-```
-Create:
-- OTA deployment plan
-- Rollback strategy
-- Monitoring metrics (detection accuracy, false-alarm rate, driver trust signals)
+Create the deployment plan:
+- OTA deployment plan and rollback strategy
+- Monitoring metrics (detection accuracy, false-alarm rate, driver-trust signals)
 - Release notes
 - Customer impact assessment
 - Success criteria after deployment
 ```
-**Ask the room:** *We just reached a deployment plan. How many teams would this normally take?*
+**Ask the room:** *We went from idea to deployable as one team. How many teams would this normally take?*
 
 ---
 
@@ -108,4 +95,4 @@ Create:
 - Where would human expertise still be required?
 - How many teams would traditionally be involved in producing all of this?
 - What handoffs did we just eliminate?
-- This is a safety system — what does it change for you that AI helped design it?
+- It's a safety system — what changes for you that AI helped design *and run* it?

@@ -1,16 +1,16 @@
 # Code & Simulation Prompts — making the build runnable
 
-These extend the live exercise so the room sees **real, running software**, not just generated text.
-Use them in a tool that can **execute code** (ChatGPT Code Interpreter / Advanced Data Analysis,
-Claude with code execution, or a local Jupyter notebook). A working **reference** lives in
-[`simulation/`](simulation/) — fall back to it if live generation wobbles.
+Detailed prompts for the **Develop** and **Test** phases so the room sees **real, running software**,
+not just generated text. Use them in a tool that can **execute code** (ChatGPT Code Interpreter /
+Advanced Data Analysis, Claude with code execution, or a local Jupyter notebook). A working
+**reference** lives in [`simulation/`](simulation/) — fall back to it if live generation wobbles.
 
-> Where these fit: replace the pseudocode-only **Step 5** with runnable code, add a new **Step 5b**
-> (run the simulation), and make **Step 6** an actual test run.
+> Where these fit: they are the fuller versions of Prompt Book **Phase 4 (Develop)** and
+> **Phase 5 (Test)**.
 
 ---
 
-## Step 5 — Implementation (real, runnable Python)
+## Develop — real, runnable Python
 ```
 Turn the implementation into runnable Python (no external libraries). Provide a DMS class with:
 - an enum of driver states (attentive, drowsy, distracted, unknown, emergency)
@@ -25,7 +25,7 @@ Make it clean and readable. Then show the code.
 ```
 **Say:** "Notice — that's not pseudocode anymore. It runs."
 
-## Step 5b — Run the simulation (the moment it comes alive)
+## Develop → run the simulation (the moment it comes alive)
 ```
 Write a short script that runs the DMS against a few scripted scenarios — an attentive driver, a
 drowsy driver whose eyes close and stay closed, a distracted driver, and a sunglasses/low-confidence
@@ -35,7 +35,7 @@ Run it and show the output.
 **Say:** "There it is — the car noticing the drowsy driver and escalating to a safe stop. That's the
 feature from our opening story, running."
 
-## Step 6 — Verification (tests made real)
+## Test — tests made real
 ```
 Write pytest tests that verify the requirements:
 - DMS-001 detects drowsiness and alerts

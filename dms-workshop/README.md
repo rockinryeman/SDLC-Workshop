@@ -6,8 +6,8 @@ feature through the full SDLC — and **run real, working code** — in minutes.
 respond safely), chosen because it's relatable for a mixed, non-technical audience.
 
 > **Slides:** this repo holds the **content and facilitation**, not the deck. Build/upload your own
-> presentation (e.g. in **Gamma**). The facilitator guide and prompt book are the source of truth
-> for what's on each slide.
+> presentation (e.g. in **Gamma**). The prompt book and cheat sheet are the source of truth for the
+> live exercise.
 
 ## Run order
 1. **[01_Scenario_Brief.md](01_Scenario_Brief.md)** — the story and why DMS; read first.
@@ -15,10 +15,9 @@ respond safely), chosen because it's relatable for a mixed, non-technical audien
 3. **[03_Prompt_Book.md](03_Prompt_Book.md)** — the 7 prompts you paste live.
 4. **[04_Discussion_Prompts.md](04_Discussion_Prompts.md)** — 5 show-of-hands / discussion moments.
 5. **[05_DMS_Feature_Package.md](05_DMS_Feature_Package.md)** — worked "answer key" for prep.
-6. **[07_Facilitator_Guide.md](07_Facilitator_Guide.md)** — minute-by-minute script (hold this while running).
-7. **[08_Facilitator_Cheat_Sheet.md](08_Facilitator_Cheat_Sheet.md)** — one-page prompt + discussion sheet.
-8. **[09_Code_Simulation_Prompts.md](09_Code_Simulation_Prompts.md)** — make the build runnable (code + tests + UI).
-9. **[simulation/](simulation/)** — runnable reference DMS (console sim, pytest, Streamlit UI).
+6. **[08_Facilitator_Cheat_Sheet.md](08_Facilitator_Cheat_Sheet.md)** — one-page run sheet (prompts + discussion).
+7. **[09_Code_Simulation_Prompts.md](09_Code_Simulation_Prompts.md)** — fuller Develop/Test prompts (code + tests + UI).
+8. **[simulation/](simulation/)** — runnable reference DMS (console sim, pytest, Streamlit UI).
 
 **Framework reference:** **[10_AI_Across_SDLC.md](10_AI_Across_SDLC.md)** — the 7 SDLC phases
 (Plan → Analyze → Design → Develop → Test → Deploy → Operate), AI impacts at each, and how they map

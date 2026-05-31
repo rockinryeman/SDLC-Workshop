@@ -1,10 +1,10 @@
-# AI Across the SDLC — the seven phases
+# AI Across the SDLC — the six phases
 
-The framework behind the workshop: AI shows up at **every** phase of the software/systems
-lifecycle, not just coding. Each phase below has a short description, where AI helps, and how it
-appears in the live DMS exercise.
+The framework behind the workshop: AI shows up at **every** phase of the lifecycle, not just coding.
+Each phase below has a short description, where AI helps, and how it appears in the live DMS exercise
+(see [03_Prompt_Book.md](03_Prompt_Book.md)).
 
-> Flow: **Plan → Analyze → Design → Develop → Test → Deploy → Operate**
+> Flow: **Plan → Analyze → Design → Develop → Test → Deploy**
 
 ---
 
@@ -18,8 +18,7 @@ appears in the live DMS exercise.
 - Develop roadmaps
 - Dynamically adapt based on changing constraints
 
-**In the DMS exercise:** Prompt 1 frames the DMS need and generates the initial requirements and
-acceptance criteria.
+**DMS exercise → Phase 1 (Plan):** frame the DMS — vision, stakeholder needs, capability roadmap, risks.
 
 ## 2. Analyze
 *Turn stakeholder needs into clear, validated functional requirements and a groomed backlog.*
@@ -31,8 +30,7 @@ acceptance criteria.
 - Discover new requirements
 - Update backlogs
 
-**In the DMS exercise:** the requirements review — "what's missing?" — surfaces gaps and new
-requirements live.
+**DMS exercise → Phase 2 (Analyze):** generate the requirements spec + acceptance criteria; surface gaps.
 
 ## 3. Design
 *Shape the architecture, interfaces, data models, and UX — and validate choices early.*
@@ -46,8 +44,7 @@ requirements live.
 - Simulate / validate choices
 - Integrate compliance constraints
 
-**In the DMS exercise:** Prompts 2–3 produce the architecture and a SysML v2 model that traces back
-to the requirements.
+**DMS exercise → Phase 3 (Design):** architecture + a SysML v2 model that traces to the requirements.
 
 ## 4. Develop
 *Build it — generate, review, refactor, and explain code.*
@@ -60,7 +57,7 @@ to the requirements.
 - Code translation
 - Autonomous code agents
 
-**In the DMS exercise:** Prompt 5 produces **runnable code** for the detect-assess-respond loop
+**DMS exercise → Phase 4 (Develop):** generate **runnable code** for the detect-assess-respond loop
 (see the [simulation](simulation/)) — not just pseudocode.
 
 ## 5. Test
@@ -73,8 +70,8 @@ to the requirements.
 - Triage failure
 - Open bugs, generate rollback / fix
 
-**In the DMS exercise:** Prompt 4 generates the test cases + traceability matrix; Prompt 6 reviews
-them; the [pytest suite](simulation/test_dms.py) runs them live (green/red).
+**DMS exercise → Phase 5 (Test):** generate pytest, **run it live (green/red)**, and simulate scenarios
+(attentive, drowsy, distracted, sunglasses) — traceable to the requirements.
 
 ## 6. Deploy
 *Release it safely — pipelines, infrastructure as code, monitored rollout, auto-fix.*
@@ -87,25 +84,12 @@ them; the [pytest suite](simulation/test_dms.py) runs them live (green/red).
 - Dynamically reconfigure resources
 - Auto-fix failed builds
 
-**In the DMS exercise:** Prompt 7 produces the OTA deployment, rollback, and monitoring plan.
-
-## 7. Operate
-*Run and improve it — detect anomalies, monitor performance, analyze feedback, patch.*
-
-**AI impacts**
-- Anomaly detection
-- Feedback analysis
-- Performance monitoring
-- Incident reports
-- Remediation runbooks
-- Proactively patch vulnerabilities
-
-**In the DMS exercise:** the deployment monitoring metrics (detection accuracy, false-alarm rate,
-driver-trust signals) feed the operate loop — and close back to Plan as new requirements.
+**DMS exercise → Phase 6 (Deploy):** OTA deployment, rollback, and monitoring plan (accuracy,
+false-alarm rate, driver-trust signals) — which feeds back to Plan as new requirements.
 
 ---
 
 ## The point
-One small, AI-augmented team can move across **all seven phases** — not hand off between seven
-siloed teams. The DMS live exercise walks this whole loop in minutes, and the
-[simulation](simulation/) proves the Develop → Test phases actually run.
+One small, AI-augmented team can move across **all six phases** — not hand off between six siloed
+teams. The DMS live exercise walks this whole loop in minutes, and the [simulation](simulation/)
+proves the Develop → Test phases actually run.

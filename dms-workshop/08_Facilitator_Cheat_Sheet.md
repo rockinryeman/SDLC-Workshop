@@ -1,28 +1,27 @@
 # Facilitator Cheat-Sheet — Live DMS Exercise (one page)
 
-**Prime the chat once (before Prompt 1):** *"We're running a live workshop. Keep each answer concise and skimmable — bullets over prose."*
+**Prime the chat once (before Phase 1):** *"We're running a live workshop. Keep each answer concise and skimmable — bullets over prose."*
 
-Run in a **fresh chat**, in order. Rhythm: **paste → read aloud → ask the room → move on.** Don't perfect anything.
+Fresh chat, in order. Rhythm: **paste → read aloud → ask the room → move on.** For **Develop** and **Test**, use a tool that can run code (or fall back to `simulation/`).
 
-| # | Slide | Prompt (paste) | Ask the room |
-|---|-------|----------------|--------------|
-| 1 | 13 | Requirements: stakeholder needs, functional + non-functional reqs (latency, accuracy, privacy), constraints, assumptions, acceptance criteria. | What's missing? What would you challenge? |
-| 2 | 14 | Architecture: context diagram (text), components (sensors, AI, decision logic, HMI, vehicle), interfaces/data flows, failure modes, safety, privacy/cyber. | Where could this go wrong, and how does it stay safe? |
-| 3 | 15 | SysML v2 text model: requirements, actions (DetectDrowsiness, AssessConfidence, TriggerResponse), interfaces/flows, elements. Readability over correctness. | (Non-tech framing) A structured way to write the design — see how it traces to the requirements. |
-| 4 | 16 | Tests: verification strategy, functional + edge (sunglasses, darkness, head turned, passenger) + negative (false-positive) cases, requirements-to-test matrix, pass/fail criteria. | Which test would you most want to pass before shipping? |
-| 5 | 18 | Implementation: approach, pseudocode for detect-assess-respond loop, logic flow, data steps, assumptions. How it satisfies the requirements. | Notice: idea → logic, no separate dev-team handoff. |
-| 6 | 18 | Verification review: which reqs satisfied, which tests pass, defects, risks (false alarms, missed detections), improvements. Pass/fail assessment. | Where does human expertise make the final call? |
-| 7 | 19 | Deployment: OTA plan, rollback, monitoring metrics (accuracy, false-alarm rate, trust), release notes, customer impact, success criteria. | How many teams would this normally take? |
+| Phase | Paste | Ask the room |
+|-------|-------|--------------|
+| **1 · Plan** | Vision, stakeholder needs, capability roadmap, top risks/constraints for the DMS. | Does this capture the real goal? What's missing? |
+| **2 · Analyze** | Requirements spec: functional + non-functional (latency, accuracy, privacy), assumptions, acceptance criteria; flag gaps. | What would you challenge? What did it surface? |
+| **3 · Design** | Architecture (sensors → AI → decision logic → HMI/vehicle), interfaces, failure modes, safety/privacy; then a SysML v2 model that traces to requirements. | Where could this go wrong, and how does it stay safe? |
+| **4 · Develop** | Runnable Python: state + response enums, a DMS class with detect-assess-respond (confidence gating, escalation), event log. Show + run it. | Real code — no separate dev-team handoff. |
+| **5 · Test** | pytest for the requirements; run green/red. Then simulate scenarios (attentive, drowsy, distracted, sunglasses) and print decisions. | Which test must pass before shipping? |
+| **6 · Deploy** | OTA rollout + rollback, monitoring metrics (accuracy, false-alarm rate, trust), release notes, customer impact, success criteria. | How many teams would this normally take? |
 
 ## Discussion moments (no tools — show of hands / call-out)
 - **Opening:** Where does your org spend the most engineering effort?
 - **Setup:** What slows product delivery the most today? (jot on a board)
-- **Midpoint:** Which SDLC activity benefited most from AI so far?
+- **Midpoint:** Which SDLC phase benefited most from AI so far?
 - **Future-state:** Where would you pilot AI first?
 - **Closing:** What is the biggest opportunity?
 
 ## Closing discussion
-What surprised you? · What would you challenge before trusting it? · Where is human expertise still required? · How many teams would this traditionally need? · What handoffs did we eliminate? · It's a safety system — what changes that AI helped design it?
+What surprised you? · What would you challenge before trusting it? · Where is human expertise still required? · How many teams would this traditionally need? · What handoffs did we eliminate? · It's a safety system — what changes that AI helped design *and run* it?
 
 ## If running long
-Skip the SysML step (15 / Prompt 3) or collapse 5–6 into one read. **Never skip Deployment** — the "we reached a release plan" payoff matters.
+Collapse **Design** (skip the SysML half) or shorten **Test** to just the pytest run. **Never skip Develop+Test running live** — the working code is the payoff.
