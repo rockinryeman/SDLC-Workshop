@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DMS Workshop — Facilitator Cheat Sheet</title>
+<style>
+  @page { size: letter portrait; margin: 0.5in; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; color: #1b1b1b;
+         font-size: 10.5px; line-height: 1.35; margin: 0; }
+  h1 { color: #174c63; font-size: 18px; margin: 0 0 2px; }
+  .sub { color: #256e8e; font-weight: 700; font-size: 11px; margin: 0 0 8px; }
+  .prime { background: #f7f7f7; border-left: 4px solid #f0a500; padding: 6px 10px;
+           margin: 0 0 8px; font-style: italic; }
+  .rule { color: #595959; margin: 0 0 8px; }
+  table { width: 100%; border-collapse: collapse; margin: 0 0 10px; }
+  th { background: #256e8e; color: #fff; text-align: left; padding: 5px 7px; font-size: 10px;
+       text-transform: uppercase; letter-spacing: .03em; }
+  td { border-bottom: 1px solid #e2e2e2; padding: 5px 7px; vertical-align: top; }
+  td.phase { font-weight: 700; color: #174c63; width: 16%; }
+  td.ask { width: 30%; color: #256e8e; font-style: italic; }
+  h2 { color: #174c63; font-size: 12px; margin: 10px 0 4px; border-bottom: 2px solid #f0a500;
+       padding-bottom: 2px; display: inline-block; }
+  ul { margin: 3px 0 8px; padding-left: 18px; }
+  li { margin: 1px 0; }
+  .foot { color: #595959; font-size: 9px; margin-top: 8px; border-top: 1px solid #e2e2e2; padding-top: 5px; }
+  b.g { color: #b07800; }
+</style>
+</head>
+<body>
+
+<h1>AI-Powered Product Development — Facilitator Cheat Sheet</h1>
+<div class="sub">Live DMS exercise · 6 SDLC phases · Industrial DevOps Now</div>
+
+<div class="prime"><b>Prime the chat once (before Phase 1):</b> "We're running a live workshop. Keep each
+answer concise and skimmable — bullets over prose."</div>
+
+<div class="rule">Fresh chat, in order. Rhythm: <b>paste → read aloud → ask the room → move on.</b>
+For <b class="g">Develop</b> &amp; <b class="g">Test</b>, use a tool that can run code (Code Interpreter /
+Claude / Jupyter) — or fall back to <b>simulation/</b>.</div>
+
+<table>
+  <tr><th>Phase</th><th>Paste into the AI</th><th>Ask the room</th></tr>
+  <tr><td class="phase">1 · Plan</td>
+      <td>Vision, stakeholder needs, capability roadmap, top risks/constraints for the DMS.</td>
+      <td class="ask">Does this capture the real goal? What's missing?</td></tr>
+  <tr><td class="phase">2 · Analyze</td>
+      <td>Requirements spec: functional + non-functional (latency, accuracy, privacy), assumptions, acceptance criteria; flag gaps.</td>
+      <td class="ask">What would you challenge? What did it surface?</td></tr>
+  <tr><td class="phase">3 · Design</td>
+      <td>Architecture (sensors → AI → decision logic → HMI/vehicle), interfaces, failure modes, safety/privacy; then a SysML v2 model that traces to requirements.</td>
+      <td class="ask">Where could this go wrong, and how does it stay safe?</td></tr>
+  <tr><td class="phase">4 · Develop</td>
+      <td>Runnable Python: state + response enums, a DMS class with detect-assess-respond (confidence gating, escalation), event log. <b>Show + run it.</b></td>
+      <td class="ask">Real code — no separate dev-team handoff.</td></tr>
+  <tr><td class="phase">5 · Test</td>
+      <td>pytest for the requirements; <b>run green/red.</b> Then simulate scenarios (attentive, drowsy, distracted, sunglasses) and print decisions.</td>
+      <td class="ask">Which test must pass before shipping?</td></tr>
+  <tr><td class="phase">6 · Deploy</td>
+      <td>OTA rollout + rollback, monitoring metrics (accuracy, false-alarm rate, trust), release notes, customer impact, success criteria.</td>
+      <td class="ask">How many teams would this normally take?</td></tr>
+</table>
+
+<h2>Discussion moments</h2> <span style="font-size:9px;color:#595959">(no tools — show of hands / call-out)</span>
+<ul>
+  <li><b>Opening:</b> Where does your org spend the most engineering effort?</li>
+  <li><b>Setup:</b> What slows product delivery the most today? (jot on a board)</li>
+  <li><b>Midpoint (after Develop):</b> Which SDLC phase benefited most from AI so far?</li>
+  <li><b>Future-state:</b> Where would you pilot AI first?</li>
+  <li><b>Closing:</b> What is the biggest opportunity?</li>
+</ul>
+
+<h2>Closing discussion</h2>
+<ul>
+  <li>What surprised you? · What would you challenge before trusting it?</li>
+  <li>Where is human expertise still required? · How many teams would this traditionally need?</li>
+  <li>What handoffs did we eliminate? · It's a safety system — what changes that AI helped design <i>and run</i> it?</li>
+</ul>
+
+<div class="foot"><b>If running long:</b> collapse Design (skip the SysML half) or shorten Test to just
+the pytest run. <b>Never skip Develop + Test running live</b> — the working code is the payoff.</div>
+
+</body>
+</html>

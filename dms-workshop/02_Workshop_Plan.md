@@ -32,59 +32,64 @@ iterative delivery while keeping humans accountable for safety.
 
 | Time | Segment | Interaction |
 |------|---------|------------|
-| 0–10 min | Why automotive development is slow | **Show of hands:** Where do we spend the most effort? |
-| 10–20 min | AI and team transformation | **Call-out:** What slows delivery most today? |
-| 20–55 min | **Live DMS exercise** (the core) | **Quick poll by hands:** Which step surprised you most? |
-| 55–70 min | Traceability & digital engineering | — (show the digital thread we just created) |
-| 70–85 min | Future-state team design | **Rank by discussion:** Where would you pilot AI first? |
-| 85–90 min | Takeaways & discussion | **Call-out:** Biggest opportunity? |
+| 0–8 min | Why automotive development is slow | **Show of hands:** Where do we spend the most effort? |
+| 8–18 min | AI and team transformation (+ the 6 SDLC phases) | **Call-out:** What slows delivery most today? |
+| 18–58 min | **Live DMS exercise** — 6 phases incl. live code (the core) | **Quick poll by hands:** Which phase surprised you most? |
+| 58–68 min | Digital thread & traceability recap | — (walk the connected trail we just created) |
+| 68–82 min | Future-state team design | **Rank by discussion:** Where would you pilot AI first? |
+| 82–90 min | Takeaways & discussion | **Call-out:** Biggest opportunity? |
+
+**Live exercise breakdown (18–58 min, ~40 min):** Plan 6 · Analyze 6 · Design 7 · **Develop 8** · **Test 8** · Deploy 5
 
 ---
 
 ## Detailed run sheet
 
-### 0–10 min · Why automotive development is slow
+### 0–8 min · Why automotive development is slow
 - Open with the **drowsy-driver story** (see Scenario Brief). Make it human before it's technical.
 - **▶ Show of hands (Opening):** *"Where does your organization spend the most engineering effort?"*
   Requirements / Architecture / Development / Testing / Compliance & Documentation
 - Land the point: specialization exists for good reasons (risk, compliance, expertise) but
   creates handoffs, delays, and rework.
 
-### 10–20 min · AI and team transformation
+### 8–18 min · AI and team transformation
 - Traditional team (Requirements → Systems → Architecture → Dev → Test → Release) vs.
   AI-augmented team (small cross-functional team + AI copilot).
+- Introduce the **6 SDLC phases** (Plan → Analyze → Design → Develop → Test → Deploy) — see file 10.
 - **▶ Call-out:** *"What slows product delivery the most today?"* (jot answers on a board)
 - Frame the exercise: "We're going to be that small team — for a Driver Monitoring System."
 
-### 20–55 min · Live DMS exercise  ⭐ the centerpiece
-Run the **Prompt Book** (separate file) live on screen — six SDLC phases, each building on the last:
-1. **Plan** — vision, stakeholder needs, roadmap, risks
-2. **Analyze** — requirements spec + acceptance criteria; find gaps
-3. **Design** — architecture + SysML v2 model (traces to requirements)
-4. **Develop** — runnable code for the detect-assess-respond loop
-5. **Test** — pytest run (green/red) + scenario simulation
-6. **Deploy** — OTA rollout, rollback, monitoring plan
+### 18–58 min · Live DMS exercise  ⭐ the centerpiece (~40 min)
+Run the **Prompt Book** (file 03) live on screen — six SDLC phases, each building on the last.
+Rhythm per phase: **prompt → read output aloud → ask the room → move on.** Don't perfect anything.
+
+| Phase | Time | What happens |
+|-------|------|--------------|
+| 1 · Plan | 18–24 (6m) | Vision, stakeholder needs, roadmap, risks |
+| 2 · Analyze | 24–30 (6m) | Requirements spec + acceptance criteria; find gaps |
+| 3 · Design | 30–37 (7m) | Architecture + SysML model (traces to requirements) |
+| 4 · **Develop** | 37–45 (8m) | **Runnable code** for the detect-assess-respond loop — *run it* |
+| 5 · **Test** | 45–53 (8m) | **pytest live (green/red)** + scenario simulation |
+| 6 · Deploy | 53–58 (5m) | OTA rollout, rollback, monitoring plan |
 
 > For **Develop** and **Test**, use a tool that can run code (Code Interpreter / Claude / Jupyter),
-> or fall back to the runnable reference in `simulation/`.
+> or fall back to the runnable reference in `simulation/`. **Protect Develop + Test** — the working
+> code is the payoff.
+- **▶ Quick poll by hands (after Develop):** *"Which SDLC phase benefited most from AI so far?"*
+  Plan / Analyze / Design / Develop / Test / Deploy
 
-Facilitation rhythm for each step: **prompt → read output aloud → ask the room "what would you
-challenge?" → move on.** Don't perfect the output; momentum is the point.
-- **▶ Quick poll by hands (Midpoint):** *"Which SDLC activity benefited most from AI so far?"*
-  Requirements / Architecture / Testing / Implementation / Deployment
-
-### 55–70 min · Traceability & digital engineering
+### 58–68 min · Digital thread & traceability recap
 - Walk the **digital thread** you just produced: Need → Requirement → Design → Test → Code → Deploy.
-- Show the requirements-to-test traceability matrix from the exercise.
-- Point: the small team didn't just move fast — it left a connected, auditable trail.
+- Tie the **passing tests** back to the requirements — verification is now evidence, not a paragraph.
+- Point: the small team didn't just move fast — it left a connected, auditable, *running* trail.
 
-### 70–85 min · Future-state team design
+### 68–82 min · Future-state team design
 - Old operating model (sequential specialist handoffs) vs. future (outcome-oriented product
   teams with specialist oversight for governance, standards, reviews, exceptions).
 - **▶ Rank by discussion:** *"Where would you pilot AI first?"*
   Systems Engineering / Software Development / Test Engineering / Program Management / Operations
 
-### 85–90 min · Takeaways & discussion
+### 82–90 min · Takeaways & discussion
 - Three takeaways: **smaller teams · faster learning · better outcomes** — humans stay accountable.
 - **▶ Closing call-out:** *"What is the biggest opportunity?"*
   Smaller teams / Faster delivery / Better quality / Lower cost / More innovation
