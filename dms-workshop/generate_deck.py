@@ -115,14 +115,19 @@ def corner_circles(s):
     shape(s, MSO_SHAPE.OVAL, 11.1, -2.3, 5.6, 5.6, fill=TEAL)
     shape(s, MSO_SHAPE.OVAL, 12.1, 3.9, 4.6, 4.6, fill=TEALL)
 
+def set_notes(s, text):
+    if text:
+        s.notes_slide.notes_text_frame.text = text
+
 # ---------- content slide ----------
-def content(n, title, body, kicker=None, pill=None):
+def content(n, title, body, kicker=None, pill=None, notes=None):
     s = slide()
     cy = header(s, title, kicker)
     if pill:
         run_pill(s, pill)
     textbox(s, 0.7, cy, 11.6, 1.6, body, 20, INK)
     footer(s, n)
+    set_notes(s, notes)
     return s
 
 # ---------- divider slide ----------
@@ -143,7 +148,7 @@ def divider(n, kicker, title, subtitle, badge=None):
     return s
 
 # ---------- menti slide ----------
-def menti(n, pollno, kind, question):
+def menti(n, pollno, kind, question, notes=None):
     s = slide()
     bg(s, LIGHT)
     accent(s)
@@ -155,7 +160,50 @@ def menti(n, pollno, kind, question):
     settext(qr, "QR\njoin code", 13, GRAY, align=PP_ALIGN.CENTER)
     textbox(s, 0.7, 5.3, 9, 0.6, "Join at menti.com — enter the code shown on screen.", 16, INK)
     footer(s, n)
+    set_notes(s, notes)
     return s
+
+# =================== PROMPTS (speaker notes) ===================
+P1 = ("PROMPT 1 — Requirements  (paste into the AI live)\n\n"
+      "You are a senior automotive systems engineer. We are designing a Driver Monitoring System "
+      "(DMS) that detects when a driver is drowsy, distracted, or experiencing a medical emergency, "
+      "and responds appropriately. Generate:\n- Stakeholder needs\n- Functional requirements\n"
+      "- Non-functional requirements (latency, accuracy, privacy)\n- Constraints\n- Assumptions\n"
+      "- Acceptance criteria\nFormat the output as a requirements specification.\n\n"
+      "ASK THE ROOM: What's missing? What would you challenge?")
+P2 = ("PROMPT 2 — Architecture & Design\n\n"
+      "Using the approved requirements, create a concise architecture description including:\n"
+      "- System context diagram (described in text)\n- Major components (sensors, perception/AI, "
+      "decision logic, HMI, vehicle interface)\n- Interfaces and data flows\n- Failure modes\n"
+      "- Safety considerations\n- Privacy and cybersecurity considerations\n\n"
+      "ASK THE ROOM: Where could this go wrong, and how would the system stay safe?")
+P3 = ("PROMPT 3 — SysML v2 Text Model\n\n"
+      "Using the architecture, generate a simple SysML v2 textual model including:\n- Requirements\n"
+      "- Actions/functions (e.g., DetectDrowsiness, AssessConfidence, TriggerResponse)\n"
+      "- Interfaces/flows\n- Major system elements\nFocus on readability, not tool-specific correctness.\n\n"
+      "ASK THE ROOM: This is just a structured way to write the design so a person AND a machine can "
+      "read it — note how it traces back to the requirements.")
+P4 = ("PROMPT 4 — Test Development\n\n"
+      "Create:\n- Verification strategy\n- Functional test cases\n- Edge case test cases (sunglasses, "
+      "darkness, head turned, passenger interference)\n- Negative test cases (false-positive drowsiness)\n"
+      "- A requirements-to-test traceability matrix\nInclude objective pass/fail criteria.\n\n"
+      "ASK THE ROOM: Which of these tests would you most want to see pass before shipping?")
+P56 = ("PROMPT 5 — Implementation Approach\n\n"
+       "Generate:\n- High-level implementation approach\n- Pseudocode for the detect-assess-respond loop\n"
+       "- Logic flow\n- Data processing steps\n- Assumptions\nExplain how the solution satisfies the "
+       "requirements.\n\nASK: Notice we went from idea to logic with no separate dev-team handoff.\n\n"
+       "----------\n\nPROMPT 6 — Verification Review\n\n"
+       "Review the proposed implementation. Identify:\n- Which requirements are satisfied\n"
+       "- Which tests would pass\n- Potential defects\n- Risks (false alarms and missed detections)\n"
+       "- Recommended improvements\nProvide a pass/fail assessment.\n\n"
+       "ASK THE ROOM: Where does human expertise still have to make the final call?")
+P7 = ("PROMPT 7 — Deployment Planning\n\n"
+      "Create:\n- OTA deployment plan\n- Rollback strategy\n- Monitoring metrics (detection accuracy, "
+      "false-alarm rate, driver trust signals)\n- Release notes\n- Customer impact assessment\n"
+      "- Success criteria after deployment\n\n"
+      "ASK THE ROOM: We just reached a deployment plan. How many teams would this normally take?")
+PRIME = ("Before Prompt 1, prime the chat once:\n\"We're running a live workshop. Keep each answer "
+         "concise and skimmable — bullets over prose.\"")
 
 # =================== BUILD ===================
 
@@ -246,7 +294,7 @@ content(12, "Customer need",
 # 13 — Step 1 Requirements
 content(13, "Step 1 — Requirements",
         "Generate stakeholder needs, requirements, constraints, and acceptance criteria.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 1")
+        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 1", notes=PRIME + "\n\n" + P1)
 
 # 14 — Step 2 Architecture (flow)
 s = slide()
@@ -256,16 +304,17 @@ textbox(s, 0.7, cy, 11.6, 0.6, "From sensing to a safe response — the system i
 flow(s, ["Sensors\n(camera / IR)", "AI Perception", "Decision Logic", "HMI + Vehicle"],
      0.7, 3.7, 11.93, 1.2, fill_list=shades(4), fsize=14)
 footer(s, 14)
+set_notes(s, P2)
 
 # 15 — Step 3 Model
 content(15, "Step 3 — Model (SysML v2)",
         "A structured, readable design that traces back to the requirements.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 3")
+        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 3", notes=P3)
 
 # 16 — Step 4 Tests
 content(16, "Step 4 — Tests & traceability",
         "Functional, edge, and negative test cases — plus a requirements-to-test matrix.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 4")
+        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 4", notes=P4)
 
 # 17 — Poll 3
 menti(17, 3, "Multiple choice", "Which SDLC activity benefited most from AI so far?")
@@ -273,12 +322,12 @@ menti(17, 3, "Multiple choice", "Which SDLC activity benefited most from AI so f
 # 18 — Step 5-6
 content(18, "Step 5–6 — Implementation & verification",
         "Detect-assess-respond logic, then a pass/fail review against the requirements.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompts 5–6")
+        kicker="Act 3 · Live DMS exercise", pill="Run Prompts 5–6", notes=P56)
 
 # 19 — Step 7 Deployment
 content(19, "Step 7 — Deployment",
         "OTA rollout, shadow mode, monitoring, and rollback.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 7")
+        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 7", notes=P7)
 
 # 20 — Digital thread (flow)
 s = slide()
