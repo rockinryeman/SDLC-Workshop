@@ -14,12 +14,12 @@ Run in a **fresh chat**, in order. Rhythm: **paste → read aloud → ask the ro
 | 6 | 18 | Verification review: which reqs satisfied, which tests pass, defects, risks (false alarms, missed detections), improvements. Pass/fail assessment. | Where does human expertise make the final call? |
 | 7 | 19 | Deployment: OTA plan, rollback, monitoring metrics (accuracy, false-alarm rate, trust), release notes, customer impact, success criteria. | How many teams would this normally take? |
 
-## Mentimeter polls
-- **Slide 4 — Poll 1 (MC):** Where does your org spend the most engineering effort?
-- **Slide 7 — Poll 2 (Word cloud):** What slows product delivery the most today?
-- **Slide 17 — Poll 3 (MC):** Which SDLC activity benefited most from AI so far?
-- **Slide 23 — Poll 4 (Ranking):** Where would you pilot AI first?
-- **Slide 26 — Poll 5 (MC):** What is the biggest opportunity?
+## Discussion moments (no tools — show of hands / call-out)
+- **Opening:** Where does your org spend the most engineering effort?
+- **Setup:** What slows product delivery the most today? (jot on a board)
+- **Midpoint:** Which SDLC activity benefited most from AI so far?
+- **Future-state:** Where would you pilot AI first?
+- **Closing:** What is the biggest opportunity?
 
 ## Closing discussion
 What surprised you? · What would you challenge before trusting it? · Where is human expertise still required? · How many teams would this traditionally need? · What handoffs did we eliminate? · It's a safety system — what changes that AI helped design it?

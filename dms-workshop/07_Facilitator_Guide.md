@@ -1,7 +1,7 @@
 # Facilitator Guide — DMS Workshop
 
 The thing you hold while running it. Timings, what to say, what to do, and how to recover when
-things wander. Pairs with the Slide Deck (06) and Prompt Book (03).
+things wander. Pairs with your slide deck and the Prompt Book (03).
 
 **Total:** 90 min · **Audience:** mixed, leaning non-technical · **Tone:** human first, technical second.
 
@@ -11,7 +11,7 @@ things wander. Pairs with the Slide Deck (06) and Prompt Book (03).
 - [ ] Read the **Scenario Brief (01)** and **Feature Package (05)** so you know what "good" looks like.
 - [ ] Open the AI tool in a fresh chat; paste the priming line: *"We're running a live workshop.
       Keep each answer concise and skimmable — bullets over prose."*
-- [ ] Build the 5 **Mentimeter** polls (04); test the join code on your phone.
+- [ ] Skim the 5 **discussion moments** (04) so the interaction beats feel natural.
 - [ ] Have the **Prompt Book (03)** open in a separate window for fast copy-paste.
 - [ ] Decide your **scope dial** default (full system vs. fatigue-only) — see Scenario Brief.
 
@@ -25,18 +25,18 @@ today takes many teams and many months. Today we'll do it as one small team, in 
 
 **Do:** Slide 3 — state the four objectives plainly.
 
-**▶ Poll #1 (Slide 4):** launch it, give 60–90 s, react to the top answer live ("Testing — no
+**▶ Show of hands (Slide 4):** ask it, react to the top answer live ("Testing — no
 surprise, that's where a lot of rework lands").
 
 **Say (land it):** "Specialization exists for good reasons — risk, compliance, expertise. But
 every handoff is a delay and a chance for something to get lost."
 
-**Recovery:** if the room is quiet, call on the poll result directly — it gives shy rooms a safe entry.
+**Recovery:** if the room is quiet, call on the show-of-hands result directly — it gives shy rooms a safe entry.
 
 ## 10–20 min · AI and team transformation  *(Slides 7–10)*
 
-**▶ Poll #2 (Slide 7, word cloud):** "What slows delivery the most?" Read 3–4 words aloud as they
-appear. This becomes the room's own language — reuse their words for the rest of the session.
+**▶ Call-out (Slide 7):** "What slows delivery the most?" Jot 3–4 answers on a board as they
+come. This becomes the room's own language — reuse their words for the rest of the session.
 
 **Say:** "AI doesn't replace the specialist. It makes their expertise available *at the moment
 you need it* — so a small team can do what used to need six."
@@ -56,7 +56,7 @@ This is the heart. **Protect this time.** Rhythm for each step:
 | 29–34 | 14 | **Prompt 2 — Architecture.** Ask: *"Where could this go wrong, how stay safe?"* |
 | 34–38 | 15 | **Prompt 3 — SysML model.** Non-tech framing: *"a structured way to write the design down."* |
 | 38–43 | 16 | **Prompt 4 — Tests + traceability.** Ask: *"Which test must pass before shipping?"* |
-| 43–45 | 17 | **▶ Poll #3 (Midpoint).** Energy reset. |
+| 43–45 | 17 | **▶ Quick poll by hands (Midpoint).** Energy reset. |
 | 45–51 | 18 | **Prompts 5–6 — Implementation + verification.** Ask: *"Where must a human decide?"* |
 | 51–55 | 19 | **Prompt 7 — Deployment.** Ask: *"How many teams would this normally take?"* |
 
@@ -82,7 +82,7 @@ system, that traceability is everything."
 confidence threshold, deciding how aggressive the safe-stop is, checking for bias, owning the
 outcome. AI assisted. People remained accountable."
 
-**▶ Poll #4 (Slide 23, ranking):** "Where would you pilot AI first?" — moves the room from
+**▶ Rank by show of hands (Slide 23):** "Where would you pilot AI first?" — moves the room from
 "interesting" to "where do *we* start?"
 
 **Say:** "The future team is outcome-oriented — and specialists shift toward governance, standards,
@@ -93,7 +93,7 @@ reviews, and the hard exceptions."
 **Say:** "Three things to take with you: smaller teams, faster learning, better outcomes — with
 humans accountable throughout."
 
-**▶ Poll #5 (Slide 26, closing):** "What's the biggest opportunity?" Capture the result.
+**▶ Closing call-out (Slide 26):** "What's the biggest opportunity?" Capture the result.
 
 **Close (callback to the hook):** "We just took a feature that protects a tired driver — from idea
 to deployment plan — as one small team, in minutes. Now imagine this across your whole portfolio.
