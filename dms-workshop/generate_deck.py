@@ -3,6 +3,7 @@
 Run with: /tmp/pptxvenv/bin/python generate_deck.py
 Brand: Industrial DevOps Now — teal #256E8E, dark #174C63, light #3288AD, gold #F0A500."""
 
+import math
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
@@ -87,13 +88,13 @@ def accent(s):
 
 def header(s, title, kicker=None):
     accent(s)
-    y = 0.62
+    y = 0.6
     if kicker:
-        textbox(s, 0.7, 0.5, 11.5, 0.3, kicker.upper(), 12, GOLD, bold=True)
-        y = 0.92
-    textbox(s, 0.7, y, 11.9, 0.9, title, 30, TEAL, bold=True)
-    shape(s, MSO_SHAPE.RECTANGLE, 0.72, y + 0.82, 1.1, 0.045, fill=GOLD)
-    return y + 1.15
+        textbox(s, 0.7, 0.48, 11.5, 0.3, kicker.upper(), 12, GOLD, bold=True)
+        y = 0.9
+    textbox(s, 0.7, y, 11.9, 0.95, title.upper(), 28, TEALD, bold=True)
+    shape(s, MSO_SHAPE.RECTANGLE, 0.72, y + 0.86, 1.1, 0.045, fill=GOLD)
+    return y + 1.18
 
 def run_pill(s, text):
     p = shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, 9.9, 0.62, 2.73, 0.55, fill=GOLD)
@@ -110,6 +111,32 @@ def flow(s, items, x, y, total_w, h, fill_list=None, tcolor=WHITE, fsize=12):
         if i < n - 1:
             shape(s, MSO_SHAPE.RIGHT_ARROW, cur + bw + 0.03, y + h/2 - 0.11, gap - 0.06, 0.22, fill=GOLD)
         cur += bw + gap
+
+def hexagon(s, x, y, w, h, fill, label=None, tcolor=WHITE, fsize=12):
+    hx = shape(s, MSO_SHAPE.HEXAGON, x, y, w, h, fill=fill)
+    if label:
+        settext(hx, label, fsize, tcolor, bold=True, align=PP_ALIGN.CENTER)
+    return hx
+
+def hex_flow(s, items, x, y, total_w, h, fill_list=None, fsize=12):
+    n = len(items); gap = 0.30
+    hw = (total_w - gap * (n - 1)) / n
+    cur = x
+    for i, it in enumerate(items):
+        col = fill_list[i] if fill_list else TEAL
+        hexagon(s, cur, y, hw, h, col, it, WHITE, fsize)
+        if i < n - 1:
+            shape(s, MSO_SHAPE.RIGHT_ARROW, cur + hw + 0.01, y + h/2 - 0.10, gap - 0.04, 0.20, fill=GOLD)
+        cur += hw + gap
+
+def hex_ring(s, cx, cy, center_label, ring_labels, hw=2.05, hh=1.7, rx=2.75, ry=1.75):
+    cols = shades(len(ring_labels))
+    for i, lab in enumerate(ring_labels):
+        ang = math.radians(-90 + (360/len(ring_labels)) * i)
+        x = cx + rx * math.cos(ang) - hw/2
+        y = cy + ry * math.sin(ang) - hh/2
+        hexagon(s, x, y, hw, hh, cols[i], lab, WHITE, 11)
+    hexagon(s, cx - hw/2, cy - hh/2, hw, hh, GOLD, center_label, INK, 13)
 
 def corner_circles(s):
     shape(s, MSO_SHAPE.OVAL, 11.1, -2.3, 5.6, 5.6, fill=TEAL)
@@ -163,6 +190,49 @@ def menti(n, pollno, kind, question, notes=None):
     set_notes(s, notes)
     return s
 
+# ---------- prompt card / prompt slide (visible prompt for follow-along) ----------
+def prompt_card(s, x, y, w, h, label, text, body_size=15):
+    shape(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y, w, h, fill=LIGHT, line=TEAL, line_w=1.25)
+    textbox(s, x + 0.28, y + 0.14, w - 0.55, 0.4, label, 13, TEAL, bold=True)
+    shape(s, MSO_SHAPE.RECTANGLE, x + 0.28, y + 0.56, w - 0.56, 0.018, fill=LINE)
+    textbox(s, x + 0.28, y + 0.68, w - 0.56, h - 0.85, text, body_size, INK)
+
+def prompt_slide(n, step_title, label, text, ask, notes=None):
+    s = slide()
+    cy = header(s, step_title, "Act 3 · Live DMS exercise")
+    run_pill(s, label.split("—")[0].strip().replace("Prompt", "Run Prompt"))
+    prompt_card(s, 0.7, cy, 11.9, 3.85, "▶  " + label + "  — paste into the AI", text)
+    textbox(s, 0.7, cy + 3.98, 11.9, 0.5, "Ask the room:   " + ask, 14, TEAL, bold=True, italic=True)
+    footer(s, n)
+    set_notes(s, notes)
+    return s
+
+# display prompts (concise, audience-facing)
+DP1 = ("You are a senior automotive systems engineer. Design a Driver Monitoring System (DMS) that "
+       "detects when a driver is drowsy, distracted, or in a medical emergency — and responds appropriately.\n\n"
+       "Generate:\n•  Stakeholder needs\n•  Functional requirements\n"
+       "•  Non-functional requirements (latency, accuracy, privacy)\n•  Constraints & assumptions\n"
+       "•  Acceptance criteria\n\nFormat the output as a requirements specification.")
+DP2 = ("Using the approved requirements, create a concise architecture description:\n\n"
+       "•  System context diagram (in text)\n•  Major components: sensors, perception/AI, decision logic, "
+       "HMI, vehicle interface\n•  Interfaces & data flows\n•  Failure modes\n•  Safety considerations\n"
+       "•  Privacy & cybersecurity considerations")
+DP3 = ("Using the architecture, generate a simple SysML v2 textual model:\n\n"
+       "•  Requirements\n•  Actions / functions (DetectDrowsiness, AssessConfidence, TriggerResponse)\n"
+       "•  Interfaces / flows\n•  Major system elements\n\nFocus on readability, not tool-specific correctness.")
+DP4 = ("Create:\n\n•  Verification strategy\n•  Functional test cases\n"
+       "•  Edge cases (sunglasses, darkness, head turned, passenger interference)\n"
+       "•  Negative cases (false-positive drowsiness)\n•  Requirements-to-test traceability matrix\n\n"
+       "Include objective pass/fail criteria.")
+DP5 = ("Generate:\n\n•  High-level implementation approach\n•  Pseudocode for the detect-assess-respond loop\n"
+       "•  Logic flow & data processing steps\n•  Assumptions\n\nExplain how it satisfies the requirements.")
+DP6 = ("Review the implementation. Identify:\n\n•  Requirements satisfied\n•  Tests that would pass\n"
+       "•  Potential defects\n•  Risks (false alarms, missed detections)\n•  Recommended improvements\n\n"
+       "Provide a pass/fail assessment.")
+DP7 = ("Create:\n\n•  OTA deployment plan\n•  Rollback strategy\n"
+       "•  Monitoring metrics (accuracy, false-alarm rate, driver trust)\n•  Release notes\n"
+       "•  Customer impact assessment\n•  Success criteria after deployment")
+
 # =================== PROMPTS (speaker notes) ===================
 P1 = ("PROMPT 1 — Requirements  (paste into the AI live)\n\n"
       "You are a senior automotive systems engineer. We are designing a Driver Monitoring System "
@@ -207,16 +277,16 @@ PRIME = ("Before Prompt 1, prime the chat once:\n\"We're running a live workshop
 
 # =================== BUILD ===================
 
-# 1 — Title
+# 1 — Title (Leidos-style: white, bold uppercase)
 s = slide()
-bg(s, TEALD)
-corner_circles(s)
-textbox(s, 0.85, 0.7, 9, 0.4, "INDUSTRIAL DEVOPS NOW", 15, WHITE, bold=True)
-shape(s, MSO_SHAPE.RECTANGLE, 0.9, 2.45, 1.7, 0.07, fill=GOLD)
-textbox(s, 0.85, 2.65, 9.8, 2.0, "AI-Powered Product Development", 46, WHITE, bold=True)
-textbox(s, 0.85, 4.55, 8.8, 1.3,
-        "Building Better Automotive Products with Smaller, Faster, Cross-Functional Teams", 22, SUB)
-textbox(s, 0.85, 6.5, 10, 0.5, "A 90-minute hands-on workshop", 15, GOLD, bold=True)
+textbox(s, 0.85, 0.55, 9, 0.4, "INDUSTRIAL DEVOPS NOW", 14, TEAL, bold=True)
+textbox(s, 0.82, 2.6, 11.7, 2.2, "AI-POWERED PRODUCT DEVELOPMENT", 44, TEALD, bold=True)
+shape(s, MSO_SHAPE.RECTANGLE, 0.85, 4.8, 1.7, 0.06, fill=GOLD)
+textbox(s, 0.85, 5.05, 10.6, 1.0,
+        "Building Better Automotive Products with Smaller, Faster, Cross-Functional Teams", 20, GRAY)
+textbox(s, 0.85, 6.2, 10, 0.4, "A 90-minute hands-on workshop", 14, TEAL, bold=True)
+shape(s, MSO_SHAPE.RECTANGLE, 0.7, 7.02, 11.93, 0.02, fill=GOLD)
+textbox(s, 0.7, 7.08, 6, 0.3, "Industrial DevOps Now", 9, GRAY, bold=True)
 
 # 2 — Why we're here
 content(2, "Why we're here",
@@ -249,8 +319,8 @@ content(5, "Automotive development today",
 s = slide()
 cy = header(s, "The cost of handoffs", "Act 1 · Why product development is slow")
 textbox(s, 0.7, cy, 11.6, 0.6, "Every handoff between specialized functions adds delay and a chance for rework.", 18, INK)
-flow(s, ["Requirements", "Systems", "Architecture", "Development", "Test", "Release"],
-     0.7, 3.7, 11.93, 1.05, fill_list=shades(6), fsize=12)
+hex_flow(s, ["Requirements", "Systems", "Architecture", "Development", "Test", "Release"],
+         0.7, 3.5, 11.93, 1.5, fill_list=shades(6), fsize=12)
 footer(s, 6)
 
 # 7 — Poll 2
@@ -291,50 +361,46 @@ content(12, "Customer need",
         "Protect a tired or distracted driver — without constant false alarms.",
         kicker="Act 3 · Live DMS exercise")
 
-# 13 — Step 1 Requirements
-content(13, "Step 1 — Requirements",
-        "Generate stakeholder needs, requirements, constraints, and acceptance criteria.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 1", notes=PRIME + "\n\n" + P1)
+# 13 — Step 1 Requirements (prompt on slide)
+prompt_slide(13, "Step 1 — Requirements", "Prompt 1 — Requirements", DP1,
+             "What's missing? What would you challenge?", notes=PRIME + "\n\n" + P1)
 
-# 14 — Step 2 Architecture (flow)
-s = slide()
-cy = header(s, "Step 2 — Architecture", "Act 3 · Live DMS exercise")
-run_pill(s, "Run Prompt 2")
-textbox(s, 0.7, cy, 11.6, 0.6, "From sensing to a safe response — the system in one line.", 18, INK)
-flow(s, ["Sensors\n(camera / IR)", "AI Perception", "Decision Logic", "HMI + Vehicle"],
-     0.7, 3.7, 11.93, 1.2, fill_list=shades(4), fsize=14)
-footer(s, 14)
-set_notes(s, P2)
+# 14 — Step 2 Architecture (prompt on slide)
+prompt_slide(14, "Step 2 — Architecture", "Prompt 2 — Architecture", DP2,
+             "Where could this go wrong, and how does it stay safe?", notes=P2)
 
 # 15 — Step 3 Model
-content(15, "Step 3 — Model (SysML v2)",
-        "A structured, readable design that traces back to the requirements.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 3", notes=P3)
+prompt_slide(15, "Step 3 — Model (SysML v2)", "Prompt 3 — SysML v2 Model", DP3,
+             "See how it traces back to the requirements.", notes=P3)
 
 # 16 — Step 4 Tests
-content(16, "Step 4 — Tests & traceability",
-        "Functional, edge, and negative test cases — plus a requirements-to-test matrix.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 4", notes=P4)
+prompt_slide(16, "Step 4 — Tests & traceability", "Prompt 4 — Test Development", DP4,
+             "Which test would you most want to pass before shipping?", notes=P4)
 
 # 17 — Poll 3
 menti(17, 3, "Multiple choice", "Which SDLC activity benefited most from AI so far?")
 
 # 18 — Step 5-6
-content(18, "Step 5–6 — Implementation & verification",
-        "Detect-assess-respond logic, then a pass/fail review against the requirements.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompts 5–6", notes=P56)
+s = slide()
+cy = header(s, "Step 5–6 — Implementation & verification", "Act 3 · Live DMS exercise")
+run_pill(s, "Run Prompts 5–6")
+prompt_card(s, 0.7, cy, 5.82, 3.85, "▶  Prompt 5 — Implementation", DP5, 13)
+prompt_card(s, 6.78, cy, 5.82, 3.85, "▶  Prompt 6 — Verification", DP6, 13)
+textbox(s, 0.7, cy + 3.98, 11.9, 0.5, "Ask the room:   Where does human expertise make the final call?",
+        14, TEAL, bold=True, italic=True)
+footer(s, 18)
+set_notes(s, P56)
 
 # 19 — Step 7 Deployment
-content(19, "Step 7 — Deployment",
-        "OTA rollout, shadow mode, monitoring, and rollback.",
-        kicker="Act 3 · Live DMS exercise", pill="Run Prompt 7", notes=P7)
+prompt_slide(19, "Step 7 — Deployment", "Prompt 7 — Deployment Planning", DP7,
+             "How many teams would this normally take?", notes=P7)
 
 # 20 — Digital thread (flow)
 s = slide()
 cy = header(s, "The digital thread", "Act 4 · What just happened")
 textbox(s, 0.7, cy, 11.6, 0.6, "One connected, auditable trail — created by a single team in minutes.", 18, INK)
-flow(s, ["Need", "Requirement", "Design", "Test", "Code", "Deploy"],
-     0.7, 3.7, 11.93, 1.05, fill_list=shades(6), fsize=13)
+hex_flow(s, ["Need", "Requirement", "Design", "Test", "Code", "Deploy"],
+         0.7, 3.5, 11.93, 1.5, fill_list=shades(6), fsize=13)
 footer(s, 20)
 
 # 21 — Timeline comparison (bars)
@@ -352,11 +418,14 @@ textbox(s, 6.05, 4.3, 6, 0.7, "— one small team", 15, INK, anchor=MSO_ANCHOR.M
 textbox(s, 0.7, 5.6, 11.6, 0.6, "Same rigor. A fraction of the calendar time.", 16, GRAY, italic=True)
 footer(s, 21)
 
-# 22 — Humans in the loop
-content(22, "Where humans stayed in the loop",
-        "Confidence thresholds · safety aggressiveness · bias checks · accountability.\n\n"
-        "AI assisted. People decided.",
-        kicker="Act 4 · What just happened")
+# 22 — Humans in the loop (honeycomb)
+s = slide()
+header(s, "Where humans stayed in the loop", "Act 4 · What just happened")
+hex_ring(s, 6.65, 4.35, "Humans\nin the loop",
+         ["Confidence\nthresholds", "Safety\naggressiveness", "Bias\nchecks",
+          "Accountability", "Governance", "Reviews"])
+textbox(s, 0.7, 6.5, 11.9, 0.4, "AI assisted. People decided.", 16, GRAY, italic=True, align=PP_ALIGN.CENTER)
+footer(s, 22)
 
 # 23 — Poll 4
 menti(23, 4, "Ranking", "Where would you pilot AI first?")
@@ -380,10 +449,16 @@ for i, c in enumerate(cards):
 textbox(s, 0.7, cy + 2.3, 11.6, 0.6, "Humans remain accountable throughout.", 18, INK, bold=True)
 footer(s, 25)
 
-# 26 — Closing + Poll 5
-divider(26, "Act 5 · Closing", "What is the biggest opportunity?",
-        "Closing Mentimeter poll, then open Q&A.  Join at menti.com.",
-        badge="▶ POLL 5  ·  Q&A")
+# 26 — Closing + Poll 5 (Leidos-style icon divider)
+s = slide()
+bg(s, TEALD)
+shape(s, MSO_SHAPE.OVAL, 5.42, 1.3, 2.5, 2.5, fill=None, line=WHITE, line_w=4)
+textbox(s, 5.42, 1.4, 2.5, 2.35, "?", 96, WHITE, bold=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+textbox(s, 0, 4.2, 13.333, 0.8, "Questions  ·  Poll 5", 30, WHITE, bold=True, align=PP_ALIGN.CENTER)
+textbox(s, 0, 5.15, 13.333, 0.6, "What is the biggest opportunity?   —   join at menti.com", 16, SUB,
+        align=PP_ALIGN.CENTER)
+textbox(s, 0.7, 7.06, 4, 0.3, "Industrial DevOps Now", 9, SUB, bold=True)
+textbox(s, 11.0, 7.06, 1.63, 0.3, "26", 9, SUB, bold=True, align=PP_ALIGN.RIGHT)
 
 out = "AI-Powered-Product-Development_DMS.pptx"
 prs.save(out)
