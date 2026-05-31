@@ -201,10 +201,9 @@ def prompt_slide(n, step_title, label, text, ask, notes=None):
     s = slide()
     cy = header(s, step_title, "Act 3 · Live DMS exercise")
     run_pill(s, label.split("—")[0].strip().replace("Prompt", "Run Prompt"))
-    prompt_card(s, 0.7, cy, 11.9, 3.85, "▶  " + label + "  — paste into the AI", text)
-    textbox(s, 0.7, cy + 3.98, 11.9, 0.5, "Ask the room:   " + ask, 14, TEAL, bold=True, italic=True)
+    prompt_card(s, 0.7, cy, 11.9, 4.5, "▶  " + label + "  — paste into the AI", text, body_size=16)
     footer(s, n)
-    set_notes(s, notes)
+    set_notes(s, notes)   # notes (P1–P7) already include the "ASK THE ROOM" direction
     return s
 
 # display prompts (concise, audience-facing)
