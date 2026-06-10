@@ -17,6 +17,7 @@
   .ph { background: #256e8e; color: #fff; padding: 5px 11px; font-weight: 700; font-size: 11px; }
   .ph span { color: #ffd47a; font-weight: 800; }
   .pb { padding: 8px 11px; }
+  .pb b { color: #174c63; }
   .foot { color: #595959; font-size: 9px; margin-top: 8px; border-top: 1px solid #e2e2e2; padding-top: 6px; }
   .foot b { color: #174c63; }
 </style>
@@ -25,25 +26,39 @@
 
 <h1>AI-Powered Product Development — Prompt Pack</h1>
 <div class="sub">Take an automotive feature through the full SDLC, live, with one small team</div>
-<div class="by">Industrial DevOps Now · industrialdevopsnow.com · run these seven prompts in order, in a fresh AI chat</div>
+<div class="by">Industrial DevOps Now · industrialdevopsnow.com · run these seven prompts in order, in a fresh AI chat · best results on a frontier model (e.g. Claude Opus)</div>
 
-<div class="prime"><b>Prime the chat once (before Prompt 1):</b> "We're running a live workshop. Keep each
-answer concise and skimmable — bullets over prose."</div>
+<div class="prime"><b>Prime the chat once (before Prompt 1):</b> "We're running a live workshop. Open every
+stage with a ≤5-line summary box (key decisions + open risks); cap prose, at most two tables per stage,
+no ASCII diagrams, ASCII characters only. This is a single-pass <b>design</b> exercise: you have run no
+tests and have no field data, so never present measured results as fact — mark anything unproven as
+ASSUMPTION or PENDING. Cite a regulation only with its real acceptance criterion; any number you choose
+yourself must be tagged SELF-IMPOSED DESIGN TARGET and never attributed to a named regulation (EU GSR /
+Regulation 2019/2144 ADDW+DDAW is the binding mandate; Euro NCAP is a voluntary rating). If unsure of a
+standard's ID, write STANDARD-REF-TBD rather than guessing."</div>
 
 <div class="p">
   <div class="ph"><span>1</span> &nbsp; PLANNING</div>
   <div class="pb">You are a cross-functional automotive product team. Analyze the Driver Monitoring
   System concept and generate: Stakeholders · Business Objectives · Customer Needs · Risks ·
-  Assumptions · Success Metrics · Prioritized Outcomes.</div>
+  Assumptions · Success Metrics · Prioritized Outcomes. Enumerate the safety-critical scenarios the
+  system must handle <b>as explicit customer needs</b>, including: (a) sustained drowsiness, (b)
+  eyes-off-road distraction, and (c) the driver becoming <b>unresponsive after escalation</b>.</div>
 </div>
 
 <div class="p">
   <div class="ph"><span>2</span> &nbsp; REQUIREMENTS</div>
-  <div class="pb">You are a senior automotive systems engineer. Using the Planning outputs (stakeholders,
-  customer needs, business objectives, success metrics, prioritized outcomes), produce a requirements
-  specification for the DMS: functional requirements · non-functional requirements (latency, accuracy,
-  privacy) · constraints &amp; assumptions · acceptance criteria. Trace each requirement back to a
-  stakeholder need or business objective from Planning.</div>
+  <div class="pb">You are a senior automotive systems engineer. Using the Planning outputs, produce a
+  requirements specification for the DMS: functional requirements · non-functional requirements
+  (latency, accuracy, privacy) · constraints &amp; assumptions · acceptance criteria. <b>Pin these
+  targets</b> (flag any deviation as DEVIATION with rationale): drowsiness detect-to-alert &lt;2s;
+  distraction (eyes-off-road) detect-to-alert &lt;1.5s (<b>separate</b> requirement); true-positive
+  rate ≥95%; false alarms &lt;1 per 8h driving. Include a requirement for escalation: alert → strong
+  warning → safe-stop assist → <b>emergency protocol when the driver does not respond</b>. End with a
+  fully <b>rendered</b> traceability table (do not merely assert "no orphans") mapping every requirement
+  backward to a stakeholder need and forward to the test case that will verify it. Every safety-critical
+  action (terminal safe-stop misfire, eCall, demographic-bias-before-release, event logging) must have
+  its <b>own</b> acceptance criterion AND its <b>own negative / misfire</b> test case.</div>
 </div>
 
 <div class="p">
@@ -51,29 +66,47 @@ answer concise and skimmable — bullets over prose."</div>
   <div class="pb">Using the approved requirements, create a concise architecture description: system
   context diagram (in text) · major components (sensors, perception/AI, decision logic, HMI, vehicle
   interface) · interfaces &amp; data flows · failure modes · safety considerations · privacy &amp;
-  cybersecurity considerations.</div>
+  cybersecurity considerations. <b>Specify the vehicle interface for the terminal safe action</b>
+  (safe-stop assist / emergency call); if you scope it out, add an explicit DESCOPED-WITH-RISK note —
+  do not silently make this alert-only. State your ASIL assignment as an ASSUMPTION pending a HARA, and
+  keep it consistent across the document.</div>
 </div>
 
 <div class="p">
   <div class="ph"><span>3</span> &nbsp; MODEL THE SYSTEM (SysML v2)</div>
   <div class="pb">Using the architecture, generate a simple SysML v2 textual model: requirements ·
-  actions / functions (DetectDrowsiness, AssessConfidence, TriggerResponse) · interfaces / flows ·
-  major system elements. Focus on readability, not tool-specific correctness.</div>
+  actions / functions — including DetectDriverState, AssessConfidence, <b>SelectResponse</b>,
+  TriggerResponse, and an <b>emergency / escalation action</b> · interfaces / flows · major system
+  elements. A satisfy-link is <b>invalid unless its target element appears as the source or sink of at
+  least one declared data flow</b> — do not bind the terminal-safety requirement to an action that
+  isn't wired into the pipeline. Focus on readability, not tool-specific correctness.</div>
 </div>
 
 <div class="p">
   <div class="ph"><span>4</span> &nbsp; IMPLEMENTATION</div>
   <div class="pb">Using the architecture and the SysML model, generate: high-level implementation
   approach · pseudocode for the detect-assess-respond loop · logic flow &amp; data processing steps ·
-  assumptions. Explain how the solution satisfies the requirements.</div>
+  assumptions. <b>FAIL-SAFE RULES (apply exactly):</b> (1) sustained UNKNOWN / low-confidence must
+  itself escalate on its own timeout — never silently <code>continue</code>; (2) escalation may reset
+  only after N <b>consecutive</b> confirmed-attentive frames (hysteresis), never a single frame; (3) the
+  emergency protocol must fire on driver non-response <b>regardless of confidence</b> and
+  <b>independent of whether safe-stop succeeds</b>; (4) include a driver-cancelable abort window before
+  any terminal action, traced to a test case. State your detect-to-alert time and confirm your detection
+  window (e.g. PERCLOS / multi-frame) fits inside the latency budget. Explain how the solution satisfies
+  the requirements.</div>
 </div>
 
 <div class="p">
   <div class="ph"><span>5</span> &nbsp; VERIFICATION</div>
-  <div class="pb">Generate test cases from the acceptance criteria, then review the proposed
-  implementation. Identify: which requirements are satisfied · which test cases pass · potential
-  defects · risks (false alarms, missed detections) · recommended improvements. Provide a pass/fail
-  assessment.</div>
+  <div class="pb"><b>This is a single-pass design review — you have executed no tests, so do not report
+  measured metrics as fact.</b> Generate test cases from the acceptance criteria (including the
+  attentive-driver <b>negative case</b> = no false alarm, the distraction-<b>timing</b> case, and the
+  <b>no-response emergency</b> case), then review the implementation. For each acceptance criterion give
+  a verdict — but for any <b>safety-critical or irreversible action</b> (safe-stop, eCall, full
+  escalation) you may <b>not</b> use the word PASS while no test has run; use REVIEWED-NO-DEFECT-FOUND or
+  UNVERIFIED-PENDING-TEST, and <b>re-trace that verdict against the actual implementation logic</b>,
+  flagging any path where the code would not fire. Then list defects, risks (false alarms, missed
+  detections), and recommended improvements.</div>
 </div>
 
 <div class="p">
@@ -81,7 +114,12 @@ answer concise and skimmable — bullets over prose."</div>
   <div class="pb">Using the verified implementation, create the deployment plan: OTA deployment plan
   &amp; rollback strategy · monitoring metrics (accuracy, false-alarm rate, driver trust) — mapped back
   to the Success Metrics from Planning · release notes · customer impact assessment · success criteria
-  after deployment.</div>
+  after deployment. Include a <b>SHADOW MODE</b> (detect-but-don't-act) phase as gate 0, validated
+  against labeled events before any alert reaches a driver. Rollback thresholds must be <b>no looser</b>
+  than the acceptance criteria they trace to, and include a <b>success criterion for the
+  emergency-response path</b>. You have <b>no measured data</b>: every metric or dashboard value must be
+  an ILLUSTRATIVE / SYNTHETIC placeholder (e.g. &lt;TP_RATE_PENDING&gt;) — never state a fleet size,
+  accuracy %, or crash-reduction figure as observed.</div>
 </div>
 
 <div class="foot"><b>The point:</b> one small, AI-augmented team just took a feature from idea to a
